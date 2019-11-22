@@ -1,5 +1,7 @@
 #! /bin/bash
 
+deps:
+
 
 #Format is
 # 1 = bus
@@ -17,8 +19,15 @@ MODE = 0x30 can have the follow data
     'strobe':0x13,
     'cycling':0x14,
     'random':0x15,
-    'music':0x17,
-	  'spring':0x18
+    'wave':0x17,
+    'spring':0x18,
+    'stack':0x19,
+    'cram':0x1a,
+    'scan':0x1b,
+    'neon':0x1c,
+    'water':0x1d,
+    'rainbow':0x1e
+
 
 'off' takes no parameters.
 
@@ -59,19 +68,19 @@ MODE = 0x30 can have the follow data
      'blue' = 00 to FF
      'time' = 00 to FF
      
-'scan' = 0x19 takes four bytes.
+'stack' = 0x19 takes four bytes.
      'red' = 00 to FF
      'green' = 00 to FF
      'blue' = 00 to FF
      'time' = 00 to FF
 
-'scan2' = 0x1a takes four bytes.
+'cram' = 0x1a takes four bytes.
      'red' = 00 to FF
      'green' = 00 to FF
      'blue' = 00 to FF
      'time' = 00 to FF
      
-'scan3' = 0x1b takes four bytes.
+'scan' = 0x1b takes four bytes.
      'red' = 00 to FF
      'green' = 00 to FF
      'blue' = 00 to FF
@@ -96,9 +105,48 @@ MODE = 0x30 can have the follow data
 
 #Switch to
 
+#Off
+sudo i2cset -y4 0x6a 0x30 0x10 s
+
 #Static
-sudo i2cset 4 0x6a 0x30 0x11 s
+sudo i2cset -y 4 0x6a 0x30 0x11 s
+sudo i2cset -y 4 0x6a 0x11 0xFF 0x00 0x00 s
 
 #Breathing
-sudo i2cset 4 0x6a 0x30 0x12 s
+sudo i2cset -y 4 0x6a 0x30 0x12 s
+sudo i2cset -y 4 0x6a 0x12 0xFF 0x00 0x00 0x10 s
 
+#strobe
+sudo i2cset -y 4 0x6a 0x30 0x13 s
+
+#cycling
+sudo i2cset -y 4 0x6a 0x30 0x14 s
+
+#random
+sudo i2cset -y 4 0x6a 0x30 0x15 s
+
+#wave
+sudo i2cset -y 4 0x6a 0x30 0x17 s
+sudo i2cset -y 4 0x6a 0x17 0x01 s #slow
+sudo i2cset -y 4 0x6a 0x17 0xfe s #fast
+
+#spring
+sudo i2cset -y 4 0x6a 0x30 0x18 s
+
+#stack
+sudo i2cset -y 4 0x6a 0x30 0x19 s
+
+#cram
+sudo i2cset -y 4 0x6a 0x30 0x1a s
+
+#scan
+sudo i2cset -y 4 0x6a 0x30 0x1b s
+
+#neon
+sudo i2cset -y 4 0x6a 0x30 0x1c s
+
+#water
+sudo i2cset -y 4 0x6a 0x30 0x1d s
+
+#rainbow
+sudo i2cset -y 4 0x6a 0x30 0x1e s
