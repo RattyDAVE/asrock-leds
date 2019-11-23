@@ -23,6 +23,11 @@ i2c-4	smbus     	SMBus PIIX4 adapter port 1 at 0b20	SMBus adapter
 
 commands
 
+Registers 
+MODE =0x30 m
+RGB = 0x34 r g b
+
+
 MODE = 0x30 can have the follow data 
     'off':0x10,
     'static':0x11,
@@ -38,6 +43,7 @@ MODE = 0x30 can have the follow data
     'neon':0x1c,
     'water':0x1d,
     'rainbow':0x1e
+
 
 
 'off' takes no parameters.
