@@ -1,17 +1,19 @@
 #! /bin/bash
 
-deps:
+## This is for ASROCK STEEL LEGEND B450M motherboard.
 
-sudo pacman -S i2c-tools linux-latest-headers
-yay i2c-piix4-aura-dkms #this adds the 0b20 SMBus
-modprobe i2c-dev
+#deps:
 
-i2cdetect -l 
+#sudo pacman -S i2c-tools linux-latest-headers
+#yay -S --answerclean A --answerdiff N i2c-piix4-aura-dkms #this adds the 0b20 SMBus
+#sudo modprobe i2c_dev
 
-This should have a line that has 
+#i2cdetect -l 
 
-i2c-4	smbus     	SMBus PIIX4 adapter port 1 at 0b20	SMBus adapter
-
+#This should have a line that has 
+#
+#i2c-4	smbus     	SMBus PIIX4 adapter port 1 at 0b20	SMBus adapter
+#
 #This is for V3 of the LED firmware on the nuvoton RGB MCU.
 
 #Format is
@@ -21,102 +23,23 @@ i2c-4	smbus     	SMBus PIIX4 adapter port 1 at 0b20	SMBus adapter
 # n = data
 # s = Write mode (s = SMBus block data)
 
-commands
 
-Registers 
-MODE = 0x30 m
-RGB = 0x34 r g b
+#Registers 
+#MODE = 0x30 m ('off':0x10,'static':0x11,'breathing':0x12,'strobe':0x13,'cycling':0x14,'random':0x15,'wave':0x17,'spring':0x18,'stack':0x19,'cram':0x1a,'scan':0x1b,'neon':0x1c,'water':0x1d,'rainbow':0x1e)
+#RGB = 0x34 r g b (used for mode 0x11)
 
-
-MODE = 0x30 can have the follow data 
-    'off':0x10,
-    'static':0x11,
-    'breathing':0x12,
-    'strobe':0x13,
-    'cycling':0x14,
-    'random':0x15,
-    'wave':0x17,
-    'spring':0x18,
-    'stack':0x19,
-    'cram':0x1a,
-    'scan':0x1b,
-    'neon':0x1c,
-    'water':0x1d,
-    'rainbow':0x1e
-
-
-
-'off' takes no parameters.
-
-'static' = 0x11 takes three bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-
-'breathing' = 0x12 takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-
-'strobe' = 0x13 takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-
-'cycling' = 0x14 takes one byte.
-     'time' = 00 to FF
-
-'random' = 0x15 takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-     
-'wave' = 0x17 takes three bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-
-'spring' = 0x18 takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-     
-'stack' = 0x19 takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-
-'cram' = 0x1a takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-     
-'scan' = 0x1b takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-
-'neon' = 0x1c takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-
-'water' = 0x1d takes four bytes.
-     'red' = 00 to FF
-     'green' = 00 to FF
-     'blue' = 00 to FF
-     'time' = 00 to FF
-   
-'rainbow' = 0x1e takes one byte.
-     'time' = 00 to FF  
+#0x12 = Speed for breathing
+#0x13 = Speed for strobe
+#0x14 = Speed for cycling
+#0x15 = Speed for random
+#0x17 = Speed for wave
+#0x18 = Speed for spring
+#0x19 = Speed for stack
+#0x1a = Speed for cram
+#0x1b = Speed for scan
+#0x1c = Speed for neon
+#0x1d = Speed for water
+#0x1e = Speed for rainbow
 
 
 
@@ -125,47 +48,76 @@ MODE = 0x30 can have the follow data
 #Off
 sudo i2cset -y4 0x6a 0x30 0x10 s
 
-#Static
+#Static - Works
 sudo i2cset -y 4 0x6a 0x30 0x11 s
-sudo i2cset -y 4 0x6a 0x11 0xFF 0x00 0x00 s
+sudo i2cset -y 4 0x6a 0x34 0xFF 0x00 0x00 s #set rgb
 
 #Breathing
 sudo i2cset -y 4 0x6a 0x30 0x12 s
 sudo i2cset -y 4 0x6a 0x12 0x01 s #fast
-sudo i2cset -y 4 0x6a 0x12 0xff s #fast
-
+sudo i2cset -y 4 0x6a 0x12 0xff s #slow
+sudo i2cset -y 4 0x6a 0x34 0xFF 0xff 0x0f s #set rgb
 
 #strobe
 sudo i2cset -y 4 0x6a 0x30 0x13 s
+sudo i2cset -y 4 0x6a 0x13 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x13 0xff s #slow
+sudo i2cset -y 4 0x6a 0x34 0xFF 0xff 0xff s #set rgb
 
 #cycling
 sudo i2cset -y 4 0x6a 0x30 0x14 s
+sudo i2cset -y 4 0x6a 0x14 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x14 0xff s #slow
 
 #random
 sudo i2cset -y 4 0x6a 0x30 0x15 s
+sudo i2cset -y 4 0x6a 0x15 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x15 0xff s #slow
 
 #wave
 sudo i2cset -y 4 0x6a 0x30 0x17 s
-sudo i2cset -y 4 0x6a 0x17 0x01 s #slow
-sudo i2cset -y 4 0x6a 0x17 0xfe s #fast
+sudo i2cset -y 4 0x6a 0x17 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x17 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
+
 
 #spring
 sudo i2cset -y 4 0x6a 0x30 0x18 s
+sudo i2cset -y 4 0x6a 0x18 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x18 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #stack
 sudo i2cset -y 4 0x6a 0x30 0x19 s
+sudo i2cset -y 4 0x6a 0x19 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x19 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #cram
 sudo i2cset -y 4 0x6a 0x30 0x1a s
+sudo i2cset -y 4 0x6a 0x1a 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x1a 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #scan
 sudo i2cset -y 4 0x6a 0x30 0x1b s
+sudo i2cset -y 4 0x6a 0x1b 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x1b 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #neon
 sudo i2cset -y 4 0x6a 0x30 0x1c s
+sudo i2cset -y 4 0x6a 0x1c 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x1c 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #water
 sudo i2cset -y 4 0x6a 0x30 0x1d s
+sudo i2cset -y 4 0x6a 0x1d 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x1d 0xfe s #slow
+sudo i2cset -y 4 0x6a 0x34 0xF0 0xff 0xff s #set rgb
 
 #rainbow
 sudo i2cset -y 4 0x6a 0x30 0x1e s
+sudo i2cset -y 4 0x6a 0x1e 0x01 s #fast
+sudo i2cset -y 4 0x6a 0x1e 0xfe s #slow
