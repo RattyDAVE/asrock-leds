@@ -1,6 +1,6 @@
 #! /bin/bash
 
-## This is for ASROCK STEEL LEGEND B450M motherboard.
+## This is for ASROCK STEEL LEGEND B450M motherboard. using the Nuvoton RGB MCU chip.
 
 #deps:
 
