@@ -2,6 +2,17 @@
 
 deps:
 
+sudo pacman -S i2c-tools linux-latest-headers
+yay i2c-piix4-aura-dkms #this adds the 0b20 SMBus
+modprobe i2c-dev
+
+i2cdetect -l 
+
+This should have a line that has 
+
+i2c-4	smbus     	SMBus PIIX4 adapter port 1 at 0b20	SMBus adapter
+
+#This is for V3 of the LED firmware on the nuvoton RGB MCU.
 
 #Format is
 # 1 = bus
