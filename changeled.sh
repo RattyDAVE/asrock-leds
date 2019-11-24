@@ -69,4 +69,5 @@ case $1 in
         i2cset -y 4 0x6a 0x30 $1 s
         i2cset -y 4 0x6a $1 $2 s
         ;;
-        
+ esac
+ 
