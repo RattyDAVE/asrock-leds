@@ -24,14 +24,13 @@
 # s = Write mode (s = SMBus block data)
 
 
-#Registers 
-#MODE = 0x30 m ('off':0x10,'static':0x11,'breathing':0x12,'strobe':0x13,'cycling':0x14,'random':0x15,'wave':0x17,'spring':0x18,'stack':0x19,'cram':0x1a,'scan':0x1b,'neon':0x1c,'water':0x1d,'rainbow':0x1e)
-#RGB = 0x34 r g b (used for mode 0x11)
-
+#Registers
+#0x00 = Firmware version.
 #0x12 = Speed for breathing
 #0x13 = Speed for strobe
 #0x14 = Speed for cycling
 #0x15 = Speed for random
+#0x16 = ????? maybe another RGB?
 #0x17 = Speed for wave
 #0x18 = Speed for spring
 #0x19 = Speed for stack
@@ -40,6 +39,8 @@
 #0x1c = Speed for neon
 #0x1d = Speed for water
 #0x1e = Speed for rainbow
+#0x30 = Mode ('off':0x10,'static':0x11,'breathing':0x12,'strobe':0x13,'cycling':0x14,'random':0x15,'wave':0x17,'spring':0x18,'stack':0x19,'cram':0x1a,'scan':0x1b,'neon':0x1c,'water':0x1d,'rainbow':0x1e)
+#0x34 = r g b (used for mode 0x11)
 
 
 
