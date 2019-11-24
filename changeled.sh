@@ -37,17 +37,17 @@ if [ "$1" = "0x10" ]; then
 fi
 
 if [ "$1" = "0x11" ]; then
- i2cset -y4 0x6a 0x30 $1 s
+ i2cset -y 4 0x6a 0x30 $1 s
  i2cset -y 4 0x6a 0x34 $2 $3 $4 s 
 fi
 
 if [ "$1" = "0x12" ] || [ "$1" = "0x13" ] || [ "$1" = "0x17" ] || [ "$1" = "0x18" ] || [ "$1" = "0x19" ] || [ "$1" = "0x1a" ] || [ "$1" = "0x1b" ] ||  [ "$1" = "0x1c" ] ||  [ "$1" = "0x1d" ]; then
- i2cset -y4 0x6a 0x30 $1 s
+ i2cset -y 4 0x6a 0x30 $1 s
  i2cset -y 4 0x6a 0x34 $2 $3 $4 s
- i2cset -y4 0x6a $1 $5 s
+ i2cset -y 4 0x6a $1 $5 s
 fi
 
 if [ "$1" = "0x14" ] || [ "$1" = "0x15" ] || [ "$1" = "0x1e" ]; then
- i2cset -y4 0x6a 0x30 $1 s
- i2cset -y4 0x6a $1 $2 s
+ i2cset -y 4 0x6a 0x30 $1 s
+ i2cset -y 4 0x6a $1 $2 s
 fi
