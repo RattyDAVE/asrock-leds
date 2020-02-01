@@ -10,7 +10,7 @@ echo '$5 = ' $5
 
 
 if [ "$1" = "" ]; then
-    echo "Display Help"
+echo "Display Help"
 echo "$0 MODE [R G B] [S]"
 echo "MODE:"
 echo " 'off':0x10"
@@ -31,6 +31,8 @@ echo ""
 echo " Example $0 0x1b 0xff 0xff 0xff 0x10"
 echo "         Run with Mode=scan Colour=white Speed=10ms" 
 fi
+
+rgbbus=`i2cdetect -l|grep 0b20|cut -b 5`
 
 #if [ "$1" = "0x10" ]; then
 # i2cset -y4 0x6a 0x30 $1 s
@@ -55,20 +57,20 @@ fi
 
 case $1 in
     0x10)
-        i2cset -y4 0x6a 0x30 $1 s
+        i2cset -y $rgbbus 0x6a 0x30 $1 s
         ;;
     0x11)
-        i2cset -y 4 0x6a 0x30 $1 s
-        i2cset -y 4 0x6a 0x34 $2 $3 $4 s 
+        i2cset -y $rgbbus 0x6a 0x30 $1 s
+        i2cset -y $rgbbus 0x6a 0x34 $2 $3 $4 s 
         ;;        
     0x12 | 0x13 | 0x17| 0x18 | 0x19 | 0x1a | 0x1b | 0x1c | 0x1d)
-        i2cset -y 4 0x6a 0x30 $1 s
-        i2cset -y 4 0x6a $1 $5 s
-        i2cset -y 4 0x6a 0x34 $2 $3 $4 s    
+        i2cset -y $rgbbus 0x6a 0x30 $1 s
+        i2cset -y $rgbbus 0x6a $1 $5 s
+        i2cset -y $rgbbus 0x6a 0x34 $2 $3 $4 s    
         ;;
     0x14 | 0x15 | 0x1e)
-        i2cset -y 4 0x6a 0x30 $1 s
-        i2cset -y 4 0x6a $1 $2 s
+        i2cset -y $rgbbus 0x6a 0x30 $1 s
+        i2cset -y $rgbbus 0x6a $1 $2 s
         ;;
  esac
  
